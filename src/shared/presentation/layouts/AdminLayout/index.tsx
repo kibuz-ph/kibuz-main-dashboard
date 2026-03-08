@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
+import Topbar from "./Topbar";
 
 const AdminLayout = () => {
     const [collapsed, setCollapsed] = useState(false)
@@ -10,9 +11,7 @@ const AdminLayout = () => {
             <div className="flex h-[calc(100vh-2rem)] gap-4">
                 <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
                 <div className="flex flex-col flex-1 bg-gray-100 rounded-3xl overflow-hidden">
-
-                    {/* <Topbar /> */}
-
+                    <Topbar />
                     <main className="p-6 overflow-y-auto flex-1">
                         <Outlet />
                     </main>

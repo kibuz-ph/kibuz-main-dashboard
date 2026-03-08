@@ -21,3 +21,10 @@ export interface LoginResponse {
         secondLastName: string;
     };
 }
+
+export interface AuthState {
+    isLoading: boolean;
+    token: string | null;
+    isAuthenticated: boolean;
+    authUser: LoginResponse["user"] | null;
+}
