@@ -12,25 +12,27 @@ const Sidebar = ({ collapsed, setCollapsed }: Props) => {
 
             {/* HEADER */}
 
-            <div className="h-16 flex items-center px-4 justify-between">
+            <div className={`h-16 flex items-center px-4 ${collapsed ? "justify-center" : "justify-between"} relative`}>
                 <div className="flex items-center gap-2 overflow-hidden">
-                    <i className="ri-building-line text-xl text-green-700"></i>
+                    {/* <i className="ri-building-line text-xl text-brand-primary"></i> */}
+                    {collapsed && <img src="/src/assets/isologo-original-kibuz.svg" alt="Kibuz Logo" className="h-6 w-auto" />}
                     {!collapsed && (
-                        <span className="font-semibold text-gray-700 whitespace-nowrap">
-                        Kibuz Platform
-                        </span>
+                        // <span className="font-semibold text-gray-700 whitespace-nowrap">
+                        // Kibuz Platform
+                        // </span>
+                        <img src="/src/assets/logo-svg-original.svg" alt="Kibuz Logo" className="h-8 w-auto" />
                     )}
                 </div>
                 <button
                     onClick={() => setCollapsed(!collapsed)}
-                    className="p-1 rounded-lg hover:bg-gray-100"
+                    className="absolute right-[-8px] p-1 rounded-lg bg-white hover:bg-gray-100"
                 >
                     <i
                         className={`${
                         collapsed
                             ? "ri-arrow-right-s-line"
                             : "ri-arrow-left-s-line"
-                        } text-lg`}
+                        } text-lg cursor-pointer text-brand-primary`}
                     />
                 </button>
             </div>
@@ -41,41 +43,16 @@ const Sidebar = ({ collapsed, setCollapsed }: Props) => {
                 {SIDE_BAR_ITEMS('ADMIN').map((item, index) => {
                     return <NavItems key={index} item={item} collapsed={collapsed} />
                 })}
-                {/* <MenuItem
-                    icon={ICON_MODULE.DASHBOARD_MODULE}
-                    label={NAME_MODULE.DASHBOARD}
-                    collapsed={collapsed}
-                    to="/dashboard"
-                    // active={true}
-                />
-                <MenuItem
-                    icon={ICON_MODULE.RESIDENTIAL_COMPLEX_MODULE}
-                    label={NAME_MODULE.RESIDENTIAL_COMPLEX}
-                    collapsed={collapsed}
-                    to="/dashboard"
-                />
-                <MenuItem
-                    icon={ICON_MODULE.RESIDENTS_MODULE}
-                    label={NAME_MODULE.RESIDENTS}
-                    collapsed={collapsed}
-                    to="/dashboard"
-                />
-                <MenuItem
-                    icon={ICON_MODULE.PARKING_LOTS_MODULE}
-                    label={NAME_MODULE.PARKING_LOTS}
-                    collapsed={collapsed}
-                    to="/dashboard"
-                /> */}
             </nav>
 
             {/* FOOTER */}
 
-            <div className="border-t p-3">
+            <div className="border-t border-app-background-2 py-3 mx-3">
                 <MenuItem
                     icon={ICON_GENERAL_SECTIONS.CONFIG_SECTION}
                     label={NAME_GENERAL_SECTIONS.CONFIG}
                     collapsed={collapsed}
-                    to="/dashboard"
+                    to="/"
                 />
             </div>
         </aside>

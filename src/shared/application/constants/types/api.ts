@@ -12,3 +12,10 @@ export interface ApiResponse<T> {
     data: T | null;
     error: string | null;
 }
+
+export type HttpMethod = "GET" | "POST" | "PATCH" | "DELETE";
+
+export interface RequestOptions<T> {
+    method?: HttpMethod;
+    body?: T;
+}

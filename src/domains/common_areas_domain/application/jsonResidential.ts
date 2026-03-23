@@ -1,0 +1,122 @@
+export const RESIDENTIAL_COMPLEXES = [
+    {
+        "id": "b3a8c8a1-1f21-4b7c-9c1a-1a0010000001",
+        "nit": 900123001,
+        "name": "Faro Verde Apartamentos",
+        "slug": "faro-verde-apartamentos",
+        "phone": "6043214567",
+        "address": "Calle 45 #78-21",
+        "city": "Medellín",
+        "state": "Antioquia",
+        "country": "Colombia",
+        "logo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoVwweTHKc2d8dmQtNVUIZA_fuZBJeJfJoMw&s"
+    },
+    {
+        "id": "b3a8c8a1-1f21-4b7c-9c1a-1a0010000002",
+        "nit": 900123002,
+        "name": "Torres del Parque",
+        "slug": "torres-del-parque",
+        "phone": "6043214568",
+        "address": "Carrera 65 #34-12",
+        "city": "Medellín",
+        "state": "Antioquia",
+        "country": "Colombia",
+        "logo": "torres-del-parque.png"
+    },
+    {
+        "id": "b3a8c8a1-1f21-4b7c-9c1a-1a0010000003",
+        "nit": 900123003,
+        "name": "Altos de San Miguel",
+        "slug": "altos-san-miguel",
+        "phone": "6043214569",
+        "address": "Calle 12 Sur #43-90",
+        "city": "Envigado",
+        "state": "Antioquia",
+        "country": "Colombia",
+        "logo": "altos-san-miguel.png"
+    },
+    {
+        "id": "b3a8c8a1-1f21-4b7c-9c1a-1a0010000004",
+        "nit": 900123004,
+        "name": "Reserva del Bosque",
+        "slug": "reserva-del-bosque",
+        "phone": "6043214570",
+        "address": "Carrera 25 #10-55",
+        "city": "Sabaneta",
+        "state": "Antioquia",
+        "country": "Colombia",
+        "logo": "reserva-bosque.png"
+    },
+    {
+        "id": "b3a8c8a1-1f21-4b7c-9c1a-1a0010000005",
+        "nit": 900123005,
+        "name": "Mirador del Valle",
+        "slug": "mirador-del-valle",
+        "phone": "6043214571",
+        "address": "Calle 30 #55-12",
+        "city": "Itagüí",
+        "state": "Antioquia",
+        "country": "Colombia",
+        "logo": "mirador-valle.png"
+    },
+    {
+        "id": "b3a8c8a1-1f21-4b7c-9c1a-1a0010000006",
+        "nit": 900123006,
+        "name": "Villas de Laureles",
+        "slug": "villas-laureles",
+        "phone": "6043214572",
+        "address": "Circular 3 #70-18",
+        "city": "Medellín",
+        "state": "Antioquia",
+        "country": "Colombia",
+        "logo": "villas-laureles.png"
+    },
+    {
+        "id": "b3a8c8a1-1f21-4b7c-9c1a-1a0010000007",
+        "nit": 900123007,
+        "name": "Jardines de Belén",
+        "slug": "jardines-belen",
+        "phone": "6043214573",
+        "address": "Calle 28 #80-33",
+        "city": "Medellín",
+        "state": "Antioquia",
+        "country": "Colombia",
+        "logo": "jardines-belen.png"
+    },
+    {
+        "id": "b3a8c8a1-1f21-4b7c-9c1a-1a0010000008",
+        "nit": 900123008,
+        "name": "Parques de Suramérica",
+        "slug": "parques-suramerica",
+        "phone": "6043214574",
+        "address": "Carrera 55 #75-11",
+        "city": "La Estrella",
+        "state": "Antioquia",
+        "country": "Colombia",
+        "logo": "parques-suramerica.png"
+    },
+    {
+        "id": "b3a8c8a1-1f21-4b7c-9c1a-1a0010000009",
+        "nit": 900123009,
+        "name": "Bosques del Norte",
+        "slug": "bosques-del-norte",
+        "phone": "6043214575",
+        "address": "Calle 92 #45-20",
+        "city": "Bello",
+        "state": "Antioquia",
+        "country": "Colombia",
+        "logo": "bosques-norte.png"
+    },
+    {
+        "id": "b3a8c8a1-1f21-4b7c-9c1a-1a0010000010",
+        "nit": 900123010,
+        "name": "Ciudadela Primavera",
+        "slug": "ciudadela-primavera",
+        "phone": "6043214576",
+        "address": "Carrera 80 #50-77",
+        "city": "Medellín",
+        "state": "Antioquia",
+        "country": "Colombia",
+        "logo": "ciudadela-primavera.png"
+    }
+]

@@ -1,53 +1,39 @@
-// import { apiRequest } from "../../../../shared/infrastructure/api";
 import { API_ROUTES } from "./routesApi";
-import type { Login, LoginResponse } from "../../application/constants/types";
-import { handleResponse } from "@/shared/infrastructure/api/apiHandler";
+import type { Login, LoginResponse, User } from "@/domains/auth_domain/application/constants/types";
+// import { COOKIES_CREDENTIALS, handleResponse } from "@/shared/infrastructure/api/apiHandler_old";
+import { apiHandler } from "@/shared/infrastructure/api/apiHandler";
 
-const apiHeader = {
-    'Accept': 'application/json',
-    'Content-type': 'application/json',
+// const apiHeader = {
+//     'Accept': 'application/json',
+//     'Content-type': 'application/json',
+// };
+
+// export const authLogin = async (data: Login): Promise<LoginResponse> => {
+//     const requestOptions: RequestInit = {
+//         method: "POST",
+//         headers: apiHeader,
+//         body: JSON.stringify(data),
+//         credentials: COOKIES_CREDENTIALS
+//     };
+
+//     const response = await fetch(API_ROUTES.LOGIN, requestOptions);
+
+//     return handleResponse<LoginResponse>(response);
+// };
+
+export const authLogin = (data: Login) => {
+    return apiHandler<LoginResponse, Login>(API_ROUTES.LOGIN, {
+        method: "POST",
+        body: data,
+    });
 };
 
-// export const getUsers = async () => {
-//     const response = await apiRequest({
-//         endpoint: "/users",
-//     });
+export const checkAuth = async () => {
+    return apiHandler<User>(API_ROUTES.CHECK_AUTH);
+};
 
-//     if (!response.ok) {
-//         console.error(response.error);
-//         return;
-//     }
-
-//     console.log(response.data);
-// };
-
-
-// export const login = async (data: Login) => {
-//     const response = await apiRequest<LoginResponse>({
-//         endpoint: API_ROUTES.LOGIN,
-//         method: 'POST',
-//         body: data
-//     });
-
-//     if (!response.ok || !response.data) {
-//         console.error(response.error);
-//         return;
-//     }
-
-//     localStorage.setItem("token", response.data.token);
-//     console.log(response.data);
-
-//     return response.data;
-// };
-
-export const authLogin = async (data: Login): Promise<LoginResponse> => {
-    const requestOptions: RequestInit = {
+export const logout = () => {
+    return apiHandler(API_ROUTES.LOGOUT, {
         method: "POST",
-        headers: apiHeader,
-        body: JSON.stringify(data),
-    };
-
-    const response = await fetch(API_ROUTES.LOGIN, requestOptions);
-
-    return handleResponse<LoginResponse>(response);
+    });
 };

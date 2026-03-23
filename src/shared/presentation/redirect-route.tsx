@@ -1,12 +1,17 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { loginRoute } from "../../domains/auth_domain/infrastructure/routes";
-import { dashboardRoute } from "../../domains/dashboard_domain/infrastructure/routes";
+import { loginRoute } from "@/domains/auth_domain/infrastructure/routes";
+import { dashboardRoute } from "@/domains/dashboard_domain/infrastructure/routes";
+import { useAuth } from "@/domains/auth_domain/application/hooks/useAuth";
 
 export const PrivateRoute = () => {
     const location = useLocation();
-    const token = localStorage.getItem("token");
+    const { data: user, isLoading } = useAuth();
 
-    if (!token) {
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
+
+    if (!user) {
         return <Navigate to={loginRoute} state={{ from: location}} replace />
     }
 
@@ -14,10 +19,12 @@ export const PrivateRoute = () => {
 }
 
 export const UnauthenticatedRoute = () => {
-    const token = localStorage.getItem("token");
+    const { data: user, isLoading } = useAuth();
 
-    if (token) {
-        return <Navigate to={dashboardRoute} /> 
+    if (isLoading) return null
+
+    if (user) {
+        return <Navigate to={dashboardRoute} replace />
     }
 
     return (

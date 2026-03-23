@@ -28,3 +28,23 @@ export interface AuthState {
     isAuthenticated: boolean;
     authUser: LoginResponse["user"] | null;
 }
+
+export interface UserDetail {
+    id: string;
+    document: string;
+    firstName: string;
+    secondName: string;
+    lastName: string;
+    secondLastName: string;
+    birthday: string;
+    phone: string;
+    userId: string;
+}
+
+export interface User {
+    id: string;
+    username: string;
+    email: string;
+    isActive: boolean;
+    userDetail: UserDetail;
+}

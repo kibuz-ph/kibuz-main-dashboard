@@ -1,4 +1,8 @@
-import { useAppSelector } from "@/shared/application/store/hooks"
+import { useNavigate } from "react-router-dom"
+// import { useAppSelector } from "@/shared/application/store/hooks"
+import { useAuth } from "@/domains/auth_domain/application/hooks/useAuth"
+import { useLogout } from "@/domains/auth_domain/application/hooks/useLogout"
+import { loginRoute } from "@/domains/auth_domain/infrastructure/routes"
 
 import {
     Select,
@@ -22,20 +26,30 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
-import { selectAuthUser } from "@/domains/auth_domain/application/selectors/authSelector"
+// import { selectAuthUser } from "@/domains/auth_domain/application/redux/selectors/authSelector"
 
 export default function Topbar() {
-    const authUser = useAppSelector(selectAuthUser);
+    const navigate = useNavigate();
+    const { data: user } = useAuth();
+    const { mutate: logout } = useLogout();
+
+    const handleLogout = () => {
+        logout(undefined, {
+            onSuccess: () => {
+            navigate(loginRoute);
+            },
+        });
+    };
 
     return (
 
-        <header className="bg-white px-6 h-16 flex items-center justify-between border-b">
+        <header className="bg-white px-6 h-16 flex items-center justify-between rounded-3xl">
 
         {/* SEARCH */}
 
         <div className="relative w-72">
 
-            <i className="ri-search-line absolute left-3 top-2.5 text-gray-400"></i>
+            <i className="ri-search-line absolute left-3 top-1 text-gray-400"></i>
 
             <Input
             placeholder="Buscar..."
@@ -94,12 +108,16 @@ export default function Topbar() {
                 <div className="text-sm hidden md:block">
 
                     <p className="font-medium">
-                        {authUser?.firstName} {authUser?.lastName}
+                        {user?.userDetail?.firstName} {user?.userDetail?.lastName}
                     </p>
 
                     <p className="text-gray-500 text-xs">
-                        {authUser?.email}
+                        @{user?.username}
                     </p>
+
+                    {/* <p className="text-gray-500 text-xs">
+                        {user?.email}
+                    </p> */}
 
                 </div>
 
@@ -109,16 +127,16 @@ export default function Topbar() {
 
             <DropdownMenuContent align="end">
 
-                <DropdownMenuItem>
-                Perfil
+                <DropdownMenuItem onClick={() => {}} className="cursor-pointer">
+                    Perfil
                 </DropdownMenuItem>
 
-                <DropdownMenuItem>
-                Configuración
+                <DropdownMenuItem onClick={() => {}} className="cursor-pointer">
+                    Configuración
                 </DropdownMenuItem>
 
-                <DropdownMenuItem>
-                Cerrar sesión
+                <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
+                    Cerrar sesión
                 </DropdownMenuItem>
 
             </DropdownMenuContent>

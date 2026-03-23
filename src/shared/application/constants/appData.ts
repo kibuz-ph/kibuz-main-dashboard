@@ -1,5 +1,14 @@
 export const NAME_MODULE = {
     DASHBOARD: 'Dashboard',
+    RESIDENTIAL_COMPLEXES: 'Unidad',
+    TOWERS: 'Torres',
+    RESIDENTS: 'Residentes',
+    PARKING_LOTS: 'Parqueaderos'
+} as const;
+
+export const TITLE_MODULE = {
+    DASHBOARD: 'Dashboard',
+    RESIDENTIAL_COMPLEXES: 'Unidad Residencial',
     TOWERS: 'Torres',
     RESIDENTS: 'Residentes',
     PARKING_LOTS: 'Parqueaderos'

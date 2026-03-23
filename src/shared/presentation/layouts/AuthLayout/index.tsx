@@ -1,20 +1,32 @@
 import { Outlet } from "react-router-dom";
-import './AuthLayout.scss';
 
 const AuthLayout = () => {
     return (
-        <div className="auth-layout-container flex justify-content-between align-items-center min-h-screen bg-white border">
-            <div className="content-left w-3/6 bg-cover bg-center">
-            </div>
-            <div className="w-3/6 p-20 flex flex-col justify-center items-center">
-                <div className="w-9/12 max-w-md mb-6">
-                    <div className="w-24 text-left">
-                        Logo
+        <div className="grid min-h-svh lg:grid-cols-2">
+            <div className="flex flex-col gap-4 p-6 md:p-10">
+                <div className="flex justify-center gap-2 md:justify-start">
+                    <a href="/" className="flex items-center gap-2 font-medium">
+                        <div className="flex items-center justify-center">
+                            <img
+                                src="/src/assets/logo-svg-original.svg"
+                                alt="Image"
+                                className="w-30 object-contain dark:brightness-[0.2] dark:grayscale"
+                            />
+                        </div>
+                    </a>
+                </div>
+                <div className="flex flex-1 items-center justify-center">
+                    <div className="w-full max-w-xs">
+                        <Outlet />
                     </div>
                 </div>
-                <div className="w-9/12 max-w-md flex">
-                    <Outlet />
-                </div>
+            </div>
+            <div className="relative hidden bg-muted lg:block">
+                <img
+                    src="/src/assets/light-room-login.png"
+                    alt="Image"
+                    className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+                />
             </div>
         </div>
     );

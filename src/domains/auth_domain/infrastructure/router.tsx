@@ -1,7 +1,9 @@
 import AuthLayout from "../../../shared/presentation/layouts/AuthLayout";
-import { UnauthenticatedRoute } from "../../../shared/presentation/redirect-route";
+import PublicLayout from "../../../shared/presentation/layouts/PublicLayout";
+import { UnauthenticatedRoute, PrivateRoute } from "../../../shared/presentation/redirect-route";
 import LoginPage from "../presentation/pages/Login";
-import { loginRoute } from "./routes";
+import SelectCompanyPage from "../presentation/pages/SelectCompany/index.tsx";
+import { loginRoute, selectCompanyRoute } from "./routes";
 
 const authRouter = {
     router: {
@@ -21,4 +23,22 @@ const authRouter = {
     }
 };
 
-export default authRouter;
+const selectCompanyRouter = {
+    router: {
+        element: <PrivateRoute />,
+        children: [
+            {
+                element: <PublicLayout />,
+                path: selectCompanyRoute,
+                children: [
+                    {
+                        index: true,
+                        element: <SelectCompanyPage />,
+                    }
+                ]
+            }
+        ]
+    }
+};
+
+export { authRouter as default, selectCompanyRouter };
