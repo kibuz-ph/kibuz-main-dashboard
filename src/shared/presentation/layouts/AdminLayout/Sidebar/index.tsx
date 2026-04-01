@@ -4,8 +4,14 @@ import { ICON_GENERAL_SECTIONS } from "@/shared/application/constants/icons"
 import { NAME_GENERAL_SECTIONS } from "@/shared/application/constants/appData"
 import NavItems from "@/shared/presentation/layouts/AdminLayout/Sidebar/NavItems";
 import { SIDE_BAR_ITEMS } from "@/shared/application/constants/sidebarData";
+import { useAppSelector } from "@/shared/application/store/hooks";
+import { selectActiveComplex } from "@/domains/residential_complex_domain/application/redux/selectors/residentialComplexSelector";
+import { useParams } from "react-router-dom";
 
 const Sidebar = ({ collapsed, setCollapsed }: Props) => {
+    const { complexSlug } = useParams();
+    const activeComplex = useAppSelector(selectActiveComplex);
+    const slug = complexSlug || activeComplex?.slug;
 
     return (
         <aside className={`bg-white rounded-3xl transition-[width] duration-200 ease-in-out flex flex-col ${collapsed ? "w-20" : "w-64"}`}>
@@ -40,14 +46,14 @@ const Sidebar = ({ collapsed, setCollapsed }: Props) => {
             {/* MENU */}
 
             <nav className="flex-1 mt-4 px-2 space-y-1">
-                {SIDE_BAR_ITEMS('ADMIN').map((item, index) => {
+                {SIDE_BAR_ITEMS('ADMIN', slug).map((item, index) => {
                     return <NavItems key={index} item={item} collapsed={collapsed} />
                 })}
             </nav>
 
             {/* FOOTER */}
 
-            <div className="border-t border-app-background-2 py-3 mx-3">
+            <div className="border-t border-app-background py-3 mx-3">
                 <MenuItem
                     icon={ICON_GENERAL_SECTIONS.CONFIG_SECTION}
                     label={NAME_GENERAL_SECTIONS.CONFIG}

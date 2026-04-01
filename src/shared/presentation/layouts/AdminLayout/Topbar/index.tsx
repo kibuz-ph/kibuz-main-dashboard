@@ -1,8 +1,13 @@
-import { useNavigate } from "react-router-dom"
-// import { useAppSelector } from "@/shared/application/store/hooks"
+import { useEffect } from "react";
+import { generatePath, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "@/shared/application/store/hooks";
 import { useAuth } from "@/domains/auth_domain/application/hooks/useAuth"
 import { useLogout } from "@/domains/auth_domain/application/hooks/useLogout"
 import { loginRoute } from "@/domains/auth_domain/infrastructure/routes"
+import { selectResidentialComplexes, selectActiveComplex } from "@/domains/residential_complex_domain/application/redux/selectors/residentialComplexSelector";
+import { useMyResidentialComplexes } from "@/domains/residential_complex_domain/application/hooks/useResidentialComplexes";
+import { setActiveComplex, setComplexes } from "@/domains/residential_complex_domain/application/redux/slices/residentialComplexSlice";
+import { dashboardRoute } from "@/domains/dashboard_domain/infrastructure/routes";
 
 import {
     Select,
@@ -26,12 +31,25 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
+import { withAlpha } from "@/shared/application/utils/commonCunctions";
 // import { selectAuthUser } from "@/domains/auth_domain/application/redux/selectors/authSelector"
 
 export default function Topbar() {
     const navigate = useNavigate();
+    const location = useLocation();
+    const { complexSlug } = useParams();
     const { data: user } = useAuth();
     const { mutate: logout } = useLogout();
+    const dispatch = useAppDispatch();
+    const complexes = useAppSelector(selectResidentialComplexes);
+    const activeComplex = useAppSelector(selectActiveComplex);
+    const shouldFetch = complexes.length === 0 && !!user;
+    const { data: complexesResponse } = useMyResidentialComplexes(shouldFetch);
+
+    useEffect(() => {
+        if (!complexesResponse?.data || complexes.length > 0) return;
+        dispatch(setComplexes(complexesResponse.data));
+    }, [complexesResponse, complexes.length, dispatch]);
 
     const handleLogout = () => {
         logout(undefined, {
@@ -62,25 +80,30 @@ export default function Topbar() {
 
             {/* SELECTOR UNIDAD */}
 
-            <Select defaultValue="unidad1">
+            <Select
+                value={activeComplex?.slug || complexSlug || ""}
+                onValueChange={(slug) => {
+                    const selected = complexes.find((c) => c.slug === slug);
+                    if (selected) dispatch(setActiveComplex(selected));
 
-            <SelectTrigger className="w-[200px] bg-gray-100 border-none">
-                <SelectValue />
+                    if (complexSlug) {
+                        navigate(location.pathname.replace(`/${complexSlug}`, `/${slug}`));
+                    } else {
+                        navigate(generatePath(dashboardRoute, { complexSlug: slug }));
+                    }
+                }}
+            >
+
+            <SelectTrigger className="w-[200px] bg-gray-100 border-none text-brand-primary focus-visible:ring-0 shadow-none" style={{ backgroundColor: activeComplex ? withAlpha(activeComplex?.primaryColor) : '' }}>
+                <SelectValue placeholder="Selecciona unidad" />
             </SelectTrigger>
 
             <SelectContent>
-
-                <SelectItem value="unidad1">
-                Faro Verde
-                </SelectItem>
-
-                <SelectItem value="unidad2">
-                Fiorenza
-                </SelectItem>
-
-                <SelectItem value="unidad3">
-                Cerezos
-                </SelectItem>
+                {complexes.map((complex) => (
+                    <SelectItem key={complex.id} value={complex.slug}>
+                        {complex.name}
+                    </SelectItem>
+                ))}
 
             </SelectContent>
 
@@ -88,8 +111,8 @@ export default function Topbar() {
 
             {/* NOTIFICATIONS */}
 
-            <button className="p-2 hover:bg-gray-100 rounded-xl">
-            <i className="ri-notification-3-line"></i>
+            <button className="p-2 w-10 h-10 bg-gray-100 hover:bg-gray-100 rounded-full">
+                <i className="ri-notification-3-line text-brand-primary"></i>
             </button>
 
             {/* USER */}

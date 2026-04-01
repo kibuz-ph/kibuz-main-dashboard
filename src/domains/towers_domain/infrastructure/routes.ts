@@ -1,1 +1,1 @@
-export const towersRoute = '/torres';
+export const towersRoute = '/:complexSlug/torres';

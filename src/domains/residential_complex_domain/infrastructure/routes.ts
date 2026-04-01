@@ -1,1 +1,1 @@
-export const residentialComplexRoute = '/unidad-residencial';
+export const residentialComplexRoute = '/:complexSlug/unidad-residencial';

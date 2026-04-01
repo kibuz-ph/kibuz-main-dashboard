@@ -9,4 +9,12 @@ export interface ResidentialComplex {
     state: string;
     country: string;
     logo?: string;
+    primaryColor?: string;
+    secondaryColor?: string;
+}
+
+export interface ResidentialComplexesResponse {
+    message: string;
+    success: boolean;
+    data: ResidentialComplex[];
 }
