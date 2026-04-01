@@ -1,5 +1,8 @@
 import { NavLink } from "react-router-dom"
 import type { Props } from "./types"
+import { useAppSelector } from "@/shared/application/store/hooks";
+import { selectActiveComplex } from "@/domains/residential_complex_domain/application/redux/selectors/residentialComplexSelector";
+import { withAlpha } from "@/shared/application/utils/commonCunctions";
 
 const MenuItem = ({
     icon,
@@ -7,6 +10,7 @@ const MenuItem = ({
     collapsed,
     to
 }: Props) => {
+    const activeComplex = useAppSelector(selectActiveComplex);
 
     return (
         <NavLink
@@ -17,10 +21,13 @@ const MenuItem = ({
                 px-3 py-2 rounded-xl cursor-pointer transition-colors
                 ${
                     isActive
-                    ? "bg-brand-accent-100 text-brand-primary"
+                    ? "text-brand-primary"
                     : "text-gray-600 hover:bg-gray-100"
                 }
             `}
+            style={({ isActive }) => ({
+                backgroundColor: isActive ? withAlpha(activeComplex?.primaryColor) : '',
+            })}
         >
             <i className={`${icon} text-lg`} />
 

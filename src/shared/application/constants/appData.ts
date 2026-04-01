@@ -23,6 +23,7 @@ export const APP_TEXT = {
 } as const;
 
 export const NAME_ROLE = {
-    ADMIN_ROLE: 'ADMIN',
+    MASTER: 'MASTER',
+    ADMIN: 'ADMIN',
     USER: 'USER'
 } as const;

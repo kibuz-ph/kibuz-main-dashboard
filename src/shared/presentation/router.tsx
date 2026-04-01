@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import authRouter, { selectCompanyRouter } from "@/domains/auth_domain/infrastructure/router";
+import authRouter, { selectComplexRouter } from "@/domains/auth_domain/infrastructure/router";
 import dashboardRouter from "@/domains/dashboard_domain/infrastructure/router";
 import towersRouter from "@/domains/towers_domain/infrastructure/router";
 import commonAreasRouter from "@/domains/common_areas_domain/infrastructure/router";
@@ -9,7 +9,7 @@ import { notFoundRoute } from "@/domains/not_found_domain/infrastructure/routes"
 
 const routes = [
     authRouter?.router,
-    selectCompanyRouter?.router,
+    selectComplexRouter?.router,
     dashboardRouter?.router,
     residentialComplexRouter?.router,
     towersRouter?.router,

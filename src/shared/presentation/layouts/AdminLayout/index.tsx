@@ -2,9 +2,13 @@ import { useState } from "react"
 import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
+import { useSyncActiveComplexFromUrl } from "@/shared/application/hooks/useSyncActiveComplexFromUrl";
+import { useRequireActiveComplex } from "@/shared/application/hooks/useRequireActiveComplex";
 
 const AdminLayout = () => {
     const [collapsed, setCollapsed] = useState(false)
+    useSyncActiveComplexFromUrl();
+    useRequireActiveComplex();
 
     return (
         <div className="bg-app-background min-h-screen p-4">

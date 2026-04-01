@@ -1,20 +1,26 @@
 @import "tailwindcss";
 
 :root {
+    --kibuz-primary: #152c46;
+    --kibuz-secondary: #06647b;
     --brand-primary: #152c46;
     --brand-secondary: #06647b;
     --brand-accent: #acced3;
     --brand-accent-100: #acced34a;
-    --brand-text: #252525;
+    --brand-title: #252525;
+    --brand-text: #666565;
     --app-background: #f8f8f8;
     --app-background-2: #e6e6e6;
 }
 
 @theme {
+    --color-kibuz-primary: var(--kibuz-primary);
+    --color-kibuz-secondary: var(--kibuz-secondary);
     --color-brand-primary: var(--brand-primary);
     --color-brand-secondary: var(--brand-secondary);
     --color-brand-accent: var(--brand-accent);
     --color-brand-accent-100: var(--brand-accent-100);
+    --color-brand-title: var(--brand-title);
     --color-brand-text: var(--brand-text);
     --color-app-background: var(--app-background);
     --color-app-background-2: var(--app-background-2);

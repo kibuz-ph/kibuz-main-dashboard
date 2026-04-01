@@ -1,1 +1,1 @@
-export const commonAreasRoute = '/areas-comunes';
+export const commonAreasRoute = '/:complexSlug/areas-comunes';

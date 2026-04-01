@@ -1,1 +1,1 @@
-export const dashboardRoute = '/dashboard';
+export const dashboardRoute = '/:complexSlug/dashboard';

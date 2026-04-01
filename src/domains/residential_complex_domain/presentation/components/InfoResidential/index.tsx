@@ -3,7 +3,7 @@ import { RESIDENTIAL_COMPLEXES } from "@/domains/common_areas_domain/application
 const InfoResidential = () => {
     const complex = RESIDENTIAL_COMPLEXES[0];
     return (
-        <div className="p-6 bg-white rounded-xl border mb-6">
+        <div className="p-6 bg-white rounded-xl border border-app-background-2 mb-6">
             {/* Logo */}
             <div className="flex justify-start items-center gap-6 mb-6">
                 <img

@@ -1,24 +1,15 @@
-import { useNavigate, useLocation } from "react-router-dom";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"
 import type { Login } from "@/domains/auth_domain/application/constants/types";
-// import { useAppDispatch } from "@/shared/application/store/hooks";
 // import { requestAuthLogin } from "@/domains/auth_domain/application/redux/slices/authSlice";
 import { loginSchema, type LoginSchema } from "@/domains/auth_domain/application/validators/loginSchema";
-// import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSeparator } from "@/components/ui/field";
-// import { InputGroup, InputGroupInput } from "@/components/ui/input-group";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useLogin } from "@/domains/auth_domain/application/hooks/useLogin";
 
 const LoginForm = () => {
-    const navigate = useNavigate();
-    const location = useLocation();
-    // const dispatch = useAppDispatch();
-    const { mutate: login } = useLogin();
-
-    const from = location.state?.from?.pathname || "/";
+    const { mutate: login, isPending } = useLogin();
 
     const defaultValues = {
         email: 'admin@kibuz.com',
@@ -34,13 +25,11 @@ const LoginForm = () => {
         defaultValues
     })
 
-    const onSubmit: SubmitHandler<Login> = async (data: LoginSchema) => {
-        login(data, {
-            onSuccess: () => {
-                navigate(from, { replace: true });
-            } 
-        })
+    const onSubmit: SubmitHandler<Login> = (data: LoginSchema) => {
+        login(data)
     }
+
+    const isLoading = isPending;
     
     return (
     <form
@@ -49,7 +38,7 @@ const LoginForm = () => {
     >
       <FieldGroup>
         <div className="flex flex-col items-center gap-1 text-center mb-8">
-          <h1 className="text-3xl font-bold text-brand-primary">Iniciar sesión</h1>
+          <h1 className="text-3xl font-bold text-kibuz-primary">Iniciar sesión</h1>
           <p className="text-base text-muted-foreground">
             Ingresa tu correo y contraseña
           </p>
@@ -96,8 +85,12 @@ const LoginForm = () => {
 
         {/* BUTTON */}
         <Field>
-          <Button type="submit" className="w-full text-base py-5 rounded-ms bg-brand-primary cursor-pointer">
-            Iniciar sesión
+          <Button 
+            type="submit"
+            disabled={isLoading}
+            className="w-full text-base py-5 rounded-ms bg-kibuz-primary hover:bg-kibuz-secondary cursor-pointer"
+          >
+            {isLoading ? "Iniciando sesión..." : "Iniciar sesión"}
           </Button>
         </Field>
 
