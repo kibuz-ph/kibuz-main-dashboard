@@ -5,8 +5,10 @@ import { dashboardRoute } from "@/domains/dashboard_domain/infrastructure/routes
 import { NAME_MODULE, NAME_ROLE } from "@/shared/application/constants/appData";
 import { ICON_MODULE } from "@/shared/application/constants/icons";
 import { towersRoute } from "@/domains/towers_domain/infrastructure/routes";
+import { apartmentsRoute } from "@/domains/apartments_domain/infrastructure/routes";
 import { residentialComplexRoute } from "@/domains/residential_complex_domain/infrastructure/routes";
 import { selectComplexRoute } from "@/domains/auth_domain/infrastructure/routes";
+import { usersRoute } from "@/domains/users_domain/infrastructure/routes";
 
 export const SIDE_BAR_ITEMS = (role: Role, complexSlug?: string): SidebarItem[] => {
     const withSlug = (route: string) => {
@@ -34,11 +36,24 @@ export const SIDE_BAR_ITEMS = (role: Role, complexSlug?: string): SidebarItem[] 
             role: [NAME_ROLE.MASTER, NAME_ROLE.ADMIN]
         },
         {
-            icon: ICON_MODULE.TOWERS_MODULE,
-            text: NAME_MODULE.TOWERS,
-            path: withSlug(towersRoute),
-            role: [NAME_ROLE.MASTER, NAME_ROLE.ADMIN]
-        },
+            icon: ICON_MODULE.MANAGEMENT_MODULE,
+            text: NAME_MODULE.MANAGEMENT,
+            role: [NAME_ROLE.MASTER, NAME_ROLE.ADMIN],
+            children: [
+                {
+                    icon: ICON_MODULE.APARTMENTS_MODULE,
+                    text: NAME_MODULE.APARTMENTS,
+                    path: withSlug(apartmentsRoute),
+                    role: [NAME_ROLE.MASTER, NAME_ROLE.ADMIN]
+                },
+                {
+                    icon: ICON_MODULE.USERS_MODULE,
+                    text: NAME_MODULE.USERS,
+                    path: withSlug(usersRoute),
+                    role: [NAME_ROLE.MASTER, NAME_ROLE.ADMIN]
+                },
+            ]
+        }
     ];
 
     return itemsArray.filter((item) => {

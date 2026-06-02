@@ -3,7 +3,9 @@ export const ICON_MODULE = {
     DASHBOARD_MODULE: 'ri-dashboard-line',
     RESIDENTIAL_COMPLEXES_MODULE: 'ri-community-line',
     TOWERS_MODULE: 'ri-building-line',
-    RESIDENTS_MODULE: 'ri-user-3-line',
+    MANAGEMENT_MODULE: 'ri-kanban-view',
+    APARTMENTS_MODULE: 'ri-building-4-line',
+    USERS_MODULE: 'ri-user-community-line',
     PARKING_LOTS_MODULE: 'ri-car-line'
 } as const;
 

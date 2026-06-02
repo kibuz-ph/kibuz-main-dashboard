@@ -1,1 +1,1 @@
-export const usersRoute = '/:complexSlug/residentes';
+export const usersRoute = '/:complexSlug/usuarios';

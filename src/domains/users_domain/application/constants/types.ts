@@ -23,3 +23,32 @@ export interface UsersResponse {
     success: boolean;
     data: User[];
 }
+
+export type PaginationMeta = {
+    page: number;
+    perPage: number;
+    total: number;
+    totalPages?: number;
+};
+
+export interface UsersPaginatedResponse {
+    data: User[];
+    page?: number;
+    perPage?: number;
+    total?: number;
+    totalPages?: number;
+    meta?: PaginationMeta;
+}
+
+export type UserRow = {
+    name: string;
+    email: string;
+    status: string;
+    avatar: string;
+    userDetail: {
+        firstName: string;
+        lastName: string;
+        document: string;
+        phone: string;
+    };
+};

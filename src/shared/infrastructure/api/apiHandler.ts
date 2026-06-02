@@ -15,13 +15,30 @@ export const apiHandler = async <TResponse, TBody = unknown>(
         ...(body && { body: JSON.stringify(body) }),
     });
 
+    const rawText = await response.text();
+    const parsedBody = rawText ? (() => {
+        try {
+            return JSON.parse(rawText) as unknown;
+        } catch {
+            return rawText;
+        }
+    })() : null;
+
     if (!response.ok) {
-        const error = await response.json();
+        const error =
+            parsedBody && typeof parsedBody === "object"
+                ? parsedBody
+                : {
+                      message: typeof parsedBody === "string" && parsedBody.length > 0
+                          ? parsedBody
+                          : `Request failed with status ${response.status}`,
+                  };
+
         throw {
             status: response.status,
             ...error,
         };
     }
 
-    return response.json();
+    return (parsedBody ?? ({} as TResponse)) as TResponse;
 };

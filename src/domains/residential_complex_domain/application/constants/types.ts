@@ -18,3 +18,23 @@ export interface ResidentialComplexesResponse {
     success: boolean;
     data: ResidentialComplex[];
 }
+
+export interface UpdateResidentialComplexBody {
+    nit?: number;
+    name?: string;
+    phone?: string;
+    address?: string;
+    city?: string;
+    state?: string;
+    country?: string;
+    primaryColor?: string;
+    secondaryColor?: string;
+}
+
+export type UpdateResidentialComplexResponse =
+    | ResidentialComplex
+    | {
+          message?: string;
+          success?: boolean;
+          data: ResidentialComplex;
+      };

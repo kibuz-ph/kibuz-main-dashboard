@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { generatePath, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/shared/application/store/hooks";
 import { useAuth } from "@/domains/auth_domain/application/hooks/useAuth"
@@ -32,7 +32,43 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
 import { withAlpha } from "@/shared/application/utils/commonCunctions";
+import { SETTINGS_EVENTS, SETTINGS_STORAGE_KEYS } from "@/shared/application/constants/settings";
+import { settingsRoute } from "@/domains/settings_domain/infrastructure/routes";
 // import { selectAuthUser } from "@/domains/auth_domain/application/redux/selectors/authSelector"
+
+type StoredUserProfile = {
+    firstName: string;
+    lastName: string;
+    username: string;
+    userPhoto: string;
+};
+
+const EMPTY_USER_PROFILE: StoredUserProfile = {
+    firstName: "",
+    lastName: "",
+    username: "",
+    userPhoto: "",
+};
+
+const readStoredUserProfile = (): StoredUserProfile => {
+    if (typeof window === "undefined") return EMPTY_USER_PROFILE;
+
+    try {
+        const raw = localStorage.getItem(SETTINGS_STORAGE_KEYS.USER_PROFILE);
+        return raw ? (JSON.parse(raw) as StoredUserProfile) : EMPTY_USER_PROFILE;
+    } catch {
+        return EMPTY_USER_PROFILE;
+    }
+};
+
+const getInitials = (label: string) => {
+    return label
+        .split(" ")
+        .map((word) => word[0])
+        .join("")
+        .slice(0, 2)
+        .toUpperCase();
+};
 
 export default function Topbar() {
     const navigate = useNavigate();
@@ -45,11 +81,38 @@ export default function Topbar() {
     const activeComplex = useAppSelector(selectActiveComplex);
     const shouldFetch = complexes.length === 0 && !!user;
     const { data: complexesResponse } = useMyResidentialComplexes(shouldFetch);
+    const [userProfileOverride, setUserProfileOverride] = useState<StoredUserProfile>(() => readStoredUserProfile());
 
     useEffect(() => {
         if (!complexesResponse?.data || complexes.length > 0) return;
         dispatch(setComplexes(complexesResponse.data));
     }, [complexesResponse, complexes.length, dispatch]);
+
+    useEffect(() => {
+        const syncDisplayName = () => {
+            setUserProfileOverride(readStoredUserProfile());
+        };
+
+        window.addEventListener("storage", syncDisplayName);
+        window.addEventListener(SETTINGS_EVENTS.UPDATED, syncDisplayName as EventListener);
+
+        return () => {
+            window.removeEventListener("storage", syncDisplayName);
+            window.removeEventListener(SETTINGS_EVENTS.UPDATED, syncDisplayName as EventListener);
+        };
+    }, []);
+
+    const resolvedDisplayName =
+        [userProfileOverride.firstName, userProfileOverride.lastName].filter(Boolean).join(" ").trim() ||
+        localStorage.getItem(SETTINGS_STORAGE_KEYS.USER_DISPLAY_NAME) ||
+        [user?.userDetail?.firstName, user?.userDetail?.lastName].filter(Boolean).join(" ").trim() ||
+        user?.username ||
+        "Usuario";
+    const resolvedUsername = userProfileOverride.username || user?.username || "usuario";
+    const resolvedAvatar = userProfileOverride.userPhoto || "https://i.pravatar.cc/40";
+    const settingsPath = activeComplex?.slug
+        ? generatePath(settingsRoute, { complexSlug: activeComplex.slug })
+        : "/";
 
     const handleLogout = () => {
         logout(undefined, {
@@ -124,18 +187,18 @@ export default function Topbar() {
                 <div className="flex items-center gap-3 cursor-pointer">
 
                 <Avatar>
-                    <AvatarImage src="https://i.pravatar.cc/40" />
-                    <AvatarFallback>PH</AvatarFallback>
+                    <AvatarImage src={resolvedAvatar} />
+                    <AvatarFallback>{getInitials(resolvedDisplayName)}</AvatarFallback>
                 </Avatar>
 
                 <div className="text-sm hidden md:block">
 
                     <p className="font-medium">
-                        {user?.userDetail?.firstName} {user?.userDetail?.lastName}
+                        {resolvedDisplayName}
                     </p>
 
                     <p className="text-gray-500 text-xs">
-                        @{user?.username}
+                        @{resolvedUsername}
                     </p>
 
                     {/* <p className="text-gray-500 text-xs">
@@ -154,7 +217,7 @@ export default function Topbar() {
                     Perfil
                 </DropdownMenuItem>
 
-                <DropdownMenuItem onClick={() => {}} className="cursor-pointer">
+                <DropdownMenuItem onClick={() => navigate(settingsPath)} className="cursor-pointer">
                     Configuración
                 </DropdownMenuItem>
 

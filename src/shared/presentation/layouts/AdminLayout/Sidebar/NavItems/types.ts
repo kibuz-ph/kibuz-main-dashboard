@@ -1,7 +1,8 @@
-interface NavItem {
+export interface NavItem {
     icon: string
     text: string
-    path: string
+    path?: string;
+    children?: NavItem[];
 }
 
 export interface NavItemsProps {
