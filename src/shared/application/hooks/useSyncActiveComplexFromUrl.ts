@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useMyResidentialComplexes } from "@/domains/residential_complex_domain/application/hooks/useResidentialComplexes";
 import { useAppDispatch, useAppSelector } from "@/shared/application/store/hooks";
 import {
@@ -10,6 +10,8 @@ import { setActiveComplex, setComplexes } from "@/domains/residential_complex_do
 
 export const useSyncActiveComplexFromUrl = () => {
     const { complexSlug } = useParams();
+    const navigate = useNavigate();
+    const location = useLocation();
     const dispatch = useAppDispatch();
     const activeComplex = useAppSelector(selectActiveComplex);
     const complexes = useAppSelector(selectResidentialComplexes);
@@ -26,14 +28,31 @@ export const useSyncActiveComplexFromUrl = () => {
         if (!hasSelected) return;
 
         const list = complexesResponse?.data ?? complexes;
-        const match = list.find((complex) => complex.slug === complexSlug);
+        if (list.length === 0) return;
 
         if (complexesResponse?.data && complexes.length === 0) {
             dispatch(setComplexes(complexesResponse.data));
         }
 
-        if (match && match.id !== activeComplex?.id) {
-            dispatch(setActiveComplex(match));
+        const slugMatch = list.find((complex) => complex.slug === complexSlug);
+
+        if (slugMatch) {
+            if (slugMatch.id !== activeComplex?.id || slugMatch.slug !== activeComplex?.slug) {
+                dispatch(setActiveComplex(slugMatch));
+            }
+            return;
         }
-    }, [complexSlug, complexesResponse, complexes, activeComplex, dispatch]);
+
+        const idMatch = activeComplex?.id
+            ? list.find((complex) => complex.id === activeComplex.id)
+            : undefined;
+
+        if (idMatch) {
+            dispatch(setActiveComplex(idMatch));
+
+            if (idMatch.slug && idMatch.slug !== complexSlug) {
+                navigate(location.pathname.replace(`/${complexSlug}`, `/${idMatch.slug}`), { replace: true });
+            }
+        }
+    }, [complexSlug, complexesResponse, complexes, activeComplex, dispatch, location.pathname, navigate]);
 };

@@ -24,7 +24,7 @@ const SelectComplexPage = () => {
     }, [complexesResponse, complexes.length, dispatch]);
 
     return (
-        <div className="flex flex-col items-center justify-center py-12">
+        <div className="flex w-full flex-col items-center justify-center py-12">
             <div className="text-center mb-12">
                 <h1 className="text-4xl font-bold text-brand-title mb-4">
                     Bienvenido {user?.userDetail?.firstName ? `${user?.userDetail?.firstName} 👋` : 'Usuario'} 
@@ -34,16 +34,16 @@ const SelectComplexPage = () => {
                 </p>
             </div>
 
-            {/* <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-12"> */}
-            <div className="flex gap-10 mb-12">
+            <div className="flex w-full flex-wrap justify-center gap-6 mb-12">
                 {complexes.map((complex) => (
                     <Link
                         key={complex.id}
+                        className="flex"
                         to={generatePath(dashboardRoute, { complexSlug: complex.slug })}
                         onClick={() => dispatch(setActiveComplex(complex))}
                     >
                         <div 
-                            className="flex flex-col h-42 w-42 justify-center gap-2 items-center p-4 text-lg font-semibold text-slate-700 transition-all transform hover:scale-105 border rounded-xl"
+                            className="flex h-42 w-42 max-w-full flex-col items-center justify-center gap-2 rounded-xl border p-4 text-lg font-semibold text-slate-700 transition-all transform hover:scale-105"
                             style={{
                                 borderColor: complex.primaryColor || "var(--brand-primary)",
                                 backgroundColor: withAlpha(complex.primaryColor) || "var(--brand-accent-100)",

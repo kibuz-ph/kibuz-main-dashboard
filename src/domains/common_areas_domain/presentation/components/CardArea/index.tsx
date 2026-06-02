@@ -1,12 +1,12 @@
 import type { CommonAreasProps } from "@/domains/common_areas_domain/application/constants/types";
+import { resolveCommonAreaIconClass } from "@/domains/common_areas_domain/application/constants/iconOptions";
 
 const CardArea = ({area}: CommonAreasProps) => {
     return (
         <div className="border border-gray-200 shadow-md bg-white rounded-lg overflow-hidden">
             <div className="flex flex-col">
                 <div className="flex justify-center items-center h-30 bg-app-background">
-                    {/* {area.icon} */}
-                    <i className="ri-home-smile-2-line text-[40px] text-gray-400"></i>
+                    <i className={`${resolveCommonAreaIconClass(area.icon)} text-[40px] text-gray-400`}></i>
                 </div>
                 <div className="flex flex-col gap-2 p-4">
                     <div className="flex items-center gap-2">
