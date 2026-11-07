@@ -1,4 +1,4 @@
-export type ApartmentStatus = "Ocupado" | "Disponible" | "Reservado";
+import type { Tower } from "@/domains/towers_domain/application/constants/types";
 
 export type AssetStatus = "Asignado" | "Disponible";
 
@@ -6,18 +6,55 @@ export type VehicleStatus = "Activo" | "Visitante";
 
 export type PetStatus = "Registrada" | "Pendiente";
 
+export type PaginationMetadata = {
+    currentPage: number;
+    perPage: number;
+    totalPages: number;
+    totalItems: number;
+    hasPage: boolean;
+};
+
+export type Apartment = {
+    id: string;
+    floor: number;
+    reference: string;
+    size: string;
+    towerId: string;
+    residentialComplexId: string;
+    tower: Tower | null;
+};
+
+export type ApartmentsPaginatedResponse = {
+    items: Apartment[];
+    pagination: PaginationMetadata;
+};
+
+export type ApartmentFilters = {
+    floor?: number;
+    reference?: string;
+    size?: string;
+};
+
+export type ApartmentPayload = {
+    floor: number;
+    reference: string;
+    size: string;
+    towerId: string;
+};
+
+export type CreateApartmentsPayload = {
+    items: ApartmentPayload[];
+};
+
+export type UpdateApartmentPayload = Partial<ApartmentPayload>;
+
 export type ApartmentRow = {
     id: string;
-    name: string;
+    reference: string;
+    floor: number;
+    size: string;
+    towerId: string;
     tower: string;
-    floor: string;
-    owner: string;
-    residents: number;
-    parkingLots: number;
-    vehicles: number;
-    storageRooms: number;
-    pets: number;
-    status: ApartmentStatus;
 };
 
 export type ParkingLotRow = {

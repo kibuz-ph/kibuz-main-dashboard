@@ -1,6 +1,5 @@
 import type {
     ApartmentPetRow,
-    ApartmentRow,
     ApartmentVehicleRow,
     ParkingLotRow,
     StorageRoomRow,
@@ -29,7 +28,20 @@ const PET_BREEDS = ["Labrador", "Criollo", "Persa", "Beagle", "Siames"];
 const PET_NAMES = ["Luna", "Max", "Milo", "Nala", "Toby", "Kira", "Bruno", "Mia"];
 const PARKING_TYPES = ["Cubierto", "Descubierto", "Moto"];
 
-export const APARTMENTS: ApartmentRow[] = Array.from({ length: 12 }, (_, index) => {
+// Apartamentos simulados: solo alimentan las tabs que aun no consumen la API
+// (parqueaderos, vehiculos, cuartos utiles y mascotas).
+type MockApartment = {
+    id: string;
+    name: string;
+    owner: string;
+    parkingLots: number;
+    vehicles: number;
+    storageRooms: number;
+    pets: number;
+    status: "Ocupado" | "Disponible" | "Reservado";
+};
+
+const APARTMENTS: MockApartment[] = Array.from({ length: 12 }, (_, index) => {
     const floor = Math.floor(index / 4) + 1;
     const unit = (index % 4) + 1;
     const name = `Apto ${floor}${unit.toString().padStart(2, "0")}`;

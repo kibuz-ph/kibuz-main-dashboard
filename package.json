@@ -21,6 +21,7 @@
     "badge": "^1.0.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "kibuz-component-library-front": "file:../kibuz-component-library-front",
     "lucide-react": "^0.577.0",
     "prop-types": "^15.8.1",
     "radix-ui": "^1.4.3",
