@@ -13,20 +13,28 @@ const mapUserRows = (source: UsersPaginatedResponse | User[] | undefined): UseUs
     const rows = rawUsers.map((user, index) => {
         const detail = (user.userDetail ?? (user as { user_detail?: unknown }).user_detail ?? {}) as unknown as Record<string, unknown>;
         const first = (detail.firstName ?? detail.first_name ?? "") as string;
+        const secondName = (detail.secondName ?? detail.second_name ?? "") as string;
         const last = (detail.lastName ?? detail.first_lastname ?? detail.last_name ?? "") as string;
+        const secondLastName = (detail.secondLastName ?? detail.second_lastname ?? "") as string;
         const name = `${first} ${last}`.trim() || user.username || `Usuario ${index + 1}`;
         const isActive = (user.isActive ?? (user as { is_active?: boolean }).is_active ?? true) as boolean;
 
         return {
+            id: user.id,
             name,
             email: user.email,
+            username: user.username,
             status: isActive ? "Activo" : "Inactivo",
+            isActive,
             avatar: `https://i.pravatar.cc/40?img=${(index % 70) + 1}`,
             userDetail: {
                 firstName: first,
+                secondName,
                 lastName: last,
+                secondLastName,
                 document: (detail.document ?? "N/A") as string,
                 phone: (detail.phone ?? "N/A") as string,
+                birthday: (detail.birthday ?? "") as string,
             },
         };
     });
