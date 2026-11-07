@@ -5,25 +5,25 @@ import DataTable from "@/shared/presentation/components/DataTable";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type {
     ApartmentPetRow,
-    ApartmentRow,
     ApartmentVehicleRow,
     ParkingLotRow,
     StorageRoomRow,
 } from "@/domains/apartments_domain/application/constants/types";
+import { selectActiveComplex } from "@/domains/residential_complex_domain/application/redux/selectors/residentialComplexSelector";
+import { useAppSelector } from "@/shared/application/store/hooks";
+import { useApartmentsTotal } from "@/domains/apartments_domain/application/hooks/useApartments";
 import {
-    APARTMENTS,
     APARTMENT_PETS,
     APARTMENT_VEHICLES,
     PARKING_LOTS,
     STORAGE_ROOMS,
 } from "../data";
-import { apartmentsColumns } from "../components/ApartmentsTable/apartmentsColumns";
+import ApartmentsTab from "../components/ApartmentsTab";
 import { parkingLotsColumns } from "../components/ParkingLotsTable/parkingLotsColumns";
 import { apartmentVehiclesColumns } from "../components/VehiclesTable/vehiclesColumns";
 import { storageRoomsColumns } from "../components/StorageRoomsTable/storageRoomsColumns";
 import { petsColumns } from "../components/PetsTable/petsColumns";
 
-const APARTMENTS_PER_PAGE = 6;
 const TAB_ITEMS_PER_PAGE = 5;
 
 const paginateRows = <T,>(rows: T[], page: number, perPage: number) => {
@@ -33,20 +33,14 @@ const paginateRows = <T,>(rows: T[], page: number, perPage: number) => {
 
 const ApartmentsPage = () => {
     const [activeTab, setActiveTab] = useState("apartments");
-    const [apartmentsPage, setApartmentsPage] = useState(1);
     const [parkingPage, setParkingPage] = useState(1);
     const [vehiclesPage, setVehiclesPage] = useState(1);
     const [storageRoomsPage, setStorageRoomsPage] = useState(1);
     const [petsPage, setPetsPage] = useState(1);
 
-    const occupiedApartments = APARTMENTS.filter((apartment) => apartment.status === "Ocupado").length;
+    const activeComplex = useAppSelector(selectActiveComplex);
+    const { total: apartmentsTotal } = useApartmentsTotal(activeComplex?.id);
     const assignedParkingLots = PARKING_LOTS.filter((parkingLot) => parkingLot.status === "Asignado").length;
-
-    const apartmentsTotalPages = Math.max(1, Math.ceil(APARTMENTS.length / APARTMENTS_PER_PAGE));
-    const apartmentRows = useMemo(
-        () => paginateRows<ApartmentRow>(APARTMENTS, apartmentsPage, APARTMENTS_PER_PAGE),
-        [apartmentsPage]
-    );
 
     const parkingLots = PARKING_LOTS;
     const vehicles = APARTMENT_VEHICLES;
@@ -90,8 +84,8 @@ const ApartmentsPage = () => {
             <div className="grid gap-4 md:grid-cols-4">
                 <div className="rounded-xl border border-slate-100 bg-white p-5">
                     <p className="text-xs uppercase tracking-wide text-slate-400">Apartamentos</p>
-                    <p className="mt-2 text-2xl font-semibold text-slate-900">{APARTMENTS.length}</p>
-                    <p className="mt-1 text-sm text-slate-500">{occupiedApartments} ocupados actualmente</p>
+                    <p className="mt-2 text-2xl font-semibold text-slate-900">{apartmentsTotal}</p>
+                    <p className="mt-1 text-sm text-slate-500">Registrados en el conjunto</p>
                 </div>
                 <div className="rounded-xl border border-slate-100 bg-white p-5">
                     <p className="text-xs uppercase tracking-wide text-slate-400">Parqueaderos</p>
@@ -122,36 +116,11 @@ const ApartmentsPage = () => {
                 </div>
 
                 <TabsContent value="apartments" className="space-y-6">
-                    <div className="flex justify-between items-center mb-6">
-                        <h2 className="font-semibold text-2xl text-brand-title">{TITLE_MODULE.APARTMENTS}</h2>
-                        <HeaderButton text={APP_TEXT.ADD} icon="ri-add-line" />
-                    </div>
-
-                    <DataTable<ApartmentRow>
-                        data={apartmentRows}
-                        columns={apartmentsColumns}
-                        emptyMessage="Sin apartamentos registrados"
-                        total={APARTMENTS.length}
-                        page={apartmentsPage}
-                        perPage={APARTMENTS_PER_PAGE}
-                        totalPages={apartmentsTotalPages}
-                        onPageChange={setApartmentsPage}
-                        search={{
-                            placeholder: "Buscar por apartamento, torre o propietario...",
-                            keys: ["name", "tower", "owner"],
-                        }}
-                        filters={[
-                            {
-                                key: "status",
-                                label: "Estado",
-                                options: [
-                                    { label: "Ocupado", value: "Ocupado" },
-                                    { label: "Disponible", value: "Disponible" },
-                                    { label: "Reservado", value: "Reservado" },
-                                ],
-                            },
-                        ]}
-                    />
+                    {activeComplex ? (
+                        <ApartmentsTab residentialComplexId={activeComplex.id} />
+                    ) : (
+                        <p className="text-sm text-slate-400">Selecciona una unidad residencial para ver sus apartamentos.</p>
+                    )}
                 </TabsContent>
 
                 <TabsContent value="parking-lots" className="space-y-6">

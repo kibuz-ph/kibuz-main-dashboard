@@ -15,3 +15,12 @@ export const withAlpha = (color?: string, alpha = 0.12) => {
 
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 };
+
+export const getApiErrorMessage = (error: unknown, fallback: string) => {
+    if (error && typeof error === "object" && "message" in error) {
+        const message = (error as { message?: unknown }).message;
+        if (typeof message === "string" && message.length > 0) return message;
+        if (Array.isArray(message) && typeof message[0] === "string") return message[0];
+    }
+    return fallback;
+};

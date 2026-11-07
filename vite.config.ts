@@ -13,5 +13,7 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+    // kibuz-component-library-front se instala con su propio node_modules: forzar una sola copia de React
+    dedupe: ["react", "react-dom"],
   },
 })
